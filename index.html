@@ -2,70 +2,108 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Heavy Bag Lab — Muay Thai Training</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Heavy Bag Lab"/>
+<meta name="theme-color" content="#0a0a0a"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0a' width='100' height='100' rx='20'/><text y='68' x='50' text-anchor='middle' font-size='50'>🥊</text></svg>"/>
+<title>Heavy Bag Lab — Muay Thai</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#0a0a0a;color:#f5f5f5;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
-  button{cursor:pointer;font-family:inherit}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+  html,body{overscroll-behavior:none;touch-action:pan-y}
+  body{background:#0a0a0a;color:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;min-height:100vh;min-height:100dvh;overflow-x:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  button{cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
   .header{text-align:center;padding:32px 20px 16px;border-bottom:2px solid #dc2626;background:linear-gradient(180deg,rgba(220,38,38,.15) 0%,transparent 100%)}
-  .title{font-size:2.4rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:#fff;text-shadow:0 0 30px rgba(220,38,38,.5)}
+  .title{font-size:clamp(1.8rem,5vw,2.4rem);font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:#fff;text-shadow:0 0 30px rgba(220,38,38,.5)}
   .subtitle{font-size:.85rem;color:#888;letter-spacing:.3em;text-transform:uppercase;margin-top:6px}
   .phase-label{width:100%;text-align:center;padding:12px 8px;font-size:.8rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid rgba(220,38,38,.2)}
-  .week-tabs{display:flex;justify-content:center;gap:8px;padding:16px 12px;flex-wrap:wrap}
-  .week-tab{padding:8px 18px;border-radius:6px;border:2px solid #333;background:transparent;color:#888;font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;transition:all .2s}
+  .week-tabs{display:flex;justify-content:center;gap:6px;padding:16px 8px;flex-wrap:wrap}
+  .week-tab{padding:10px 16px;border-radius:8px;border:2px solid #333;background:transparent;color:#888;font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;min-height:44px}
   .week-tab.active{color:#fff}
-  .session-card{margin:12px 16px;padding:20px;background:linear-gradient(135deg,#1a1a1a 0%,#111 100%);border:1px solid #2a2a2a;border-radius:12px;cursor:pointer;transition:all .2s;border-left:4px solid #dc2626}
-  .session-card:hover{transform:translateX(4px)}
-  .session-name{font-size:1.2rem;font-weight:800;color:#fff;letter-spacing:.05em}
+  .session-card{margin:12px 16px;padding:20px;background:linear-gradient(135deg,#1a1a1a 0%,#111 100%);border:1px solid #2a2a2a;border-radius:12px;cursor:pointer;transition:all .15s;border-left:4px solid #dc2626;-webkit-user-select:none;user-select:none}
+  .session-card:active{transform:scale(.98);opacity:.9}
+  .session-name{font-size:1.15rem;font-weight:800;color:#fff;letter-spacing:.05em}
   .session-desc{font-size:.85rem;color:#999;margin-top:6px;line-height:1.4}
-  .session-meta{display:flex;gap:12px;margin-top:12px;font-size:.75rem;color:#666;text-transform:uppercase;letter-spacing:.1em;font-weight:600;flex-wrap:wrap}
+  .session-meta{display:flex;gap:10px;margin-top:12px;font-size:.72rem;color:#666;text-transform:uppercase;letter-spacing:.1em;font-weight:600;flex-wrap:wrap}
   .meta-badge{padding:4px 10px;background:#222;border-radius:4px;border:1px solid #333}
-  .timer-area{text-align:center;padding:20px}
+  .timer-area{text-align:center;padding:24px 20px 16px}
   .round-label{font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px}
   .status-label{font-size:.9rem;color:#888;font-weight:600;letter-spacing:.05em}
-  .timer-display{font-size:6rem;font-weight:900;font-variant-numeric:tabular-nums;line-height:1;margin:10px 0;letter-spacing:-.02em}
-  .timer-notes{font-size:.78rem;color:#888;margin:0 auto;max-width:400px;text-align:center;font-style:italic;line-height:1.4}
-  .progress-bar{height:6px;background:#222;border-radius:3px;margin:16px 20px;overflow:hidden}
+  .timer-display{font-size:clamp(4rem,15vw,7rem);font-weight:900;font-variant-numeric:tabular-nums;line-height:1;margin:8px 0;letter-spacing:-.02em}
+  .timer-notes{font-size:.82rem;color:#888;margin:0 auto;max-width:420px;text-align:center;font-style:italic;line-height:1.5;padding:0 12px}
+  .progress-bar{height:6px;background:#222;border-radius:3px;margin:12px 20px;overflow:hidden}
   .progress-fill{height:100%;border-radius:3px;transition:width .5s ease}
-  .controls{display:flex;justify-content:center;gap:12px;padding:12px 20px;flex-wrap:wrap}
-  .btn{padding:10px 20px;border-radius:8px;border:none;font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;color:#fff}
-  .btn-primary{padding:14px 40px;font-size:1rem}
+  .controls{display:flex;justify-content:center;gap:12px;padding:16px 20px;flex-wrap:wrap}
+  .btn{padding:12px 24px;border-radius:10px;border:none;font-weight:800;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;transition:all .15s;color:#fff;min-height:48px;min-width:48px}
+  .btn:active{transform:scale(.95)}
+  .btn-primary{padding:16px 44px;font-size:1.05rem}
   .btn-start{background:#22c55e;box-shadow:0 0 20px rgba(34,197,94,.4)}
   .btn-pause{background:#dc2626;box-shadow:0 0 20px rgba(220,38,38,.4)}
-  .btn-secondary{background:#222}
-  .btn-done{background:#22c55e;padding:14px 40px;font-size:1rem;box-shadow:0 0 20px rgba(34,197,94,.4)}
+  .btn-secondary{background:#222;border:1px solid #333}
+  .btn-done{background:#22c55e;padding:16px 44px;font-size:1.05rem;box-shadow:0 0 20px rgba(34,197,94,.4)}
   .round-list{padding:8px 16px 20px}
   .round-list-title{font-size:.75rem;font-weight:700;color:#666;letter-spacing:.15em;text-transform:uppercase;padding:8px 4px;margin-bottom:4px}
-  .round-item{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;margin:4px 0;border-radius:8px;background:#111;border:1px solid #1a1a1a;transition:all .3s}
+  .round-item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;margin:4px 0;border-radius:10px;background:#111;border:1px solid #1a1a1a;transition:all .3s}
   .round-item.active{border-width:2px}
   .round-item.done{opacity:.4}
   .round-item.upcoming{opacity:.6}
-  .round-type{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;padding:2px 8px;border-radius:3px;margin-right:10px;white-space:nowrap}
+  .round-type{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;padding:3px 8px;border-radius:4px;margin-right:10px;white-space:nowrap}
   .round-type.warmup{background:rgba(34,211,238,.13);color:#22d3ee}
   .round-type.cooldown{background:rgba(167,139,250,.13);color:#a78bfa}
   .round-type.work{background:rgba(220,38,38,.13);color:#dc2626}
   .round-name{font-weight:700;font-size:.85rem}
-  .round-detail{font-size:.72rem;color:#888;margin-top:2px}
+  .round-detail{font-size:.75rem;color:#888;margin-top:3px;line-height:1.4}
   .round-time{font-variant-numeric:tabular-nums;font-size:.85rem;font-weight:600;color:#666;white-space:nowrap}
   .round-rest-badge{color:#f59e0b;margin-left:8px;font-size:.72rem}
   .ref-section{margin:16px;border:1px solid #2a2a2a;border-radius:12px;overflow:hidden}
-  .ref-header{padding:14px 20px;background:#151515;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:#999;border:none;width:100%}
-  .ref-item{padding:12px 20px;border-top:1px solid #1a1a1a}
+  .ref-header{padding:16px 20px;background:#151515;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:#999;border:none;width:100%;min-height:48px}
+  .ref-item{padding:14px 20px;border-top:1px solid #1a1a1a}
   .ref-name{font-weight:700;color:#dc2626;font-size:.9rem}
-  .ref-desc{color:#888;font-size:.8rem;line-height:1.5;margin-top:4px}
-  .back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;margin:16px;background:transparent;border:1px solid #333;border-radius:6px;color:#999;font-weight:600;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
-  .session-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #1a1a1a}
-  .session-header-label{font-size:.8rem;color:#666;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding-right:16px}
+  .ref-desc{color:#888;font-size:.82rem;line-height:1.5;margin-top:4px}
+  .back-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;margin:12px 16px;background:transparent;border:1px solid #333;border-radius:8px;color:#999;font-weight:600;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;min-height:44px}
+  .session-header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 8px 0;border-bottom:1px solid #1a1a1a}
+  .session-header-label{font-size:.78rem;color:#666;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding-right:16px}
   .complete-msg{font-size:1.5rem;font-weight:900;color:#22c55e;letter-spacing:.1em;text-transform:uppercase;margin-top:10px;text-shadow:0 0 30px rgba(34,197,94,.4)}
   .complete-icon{font-size:4rem;color:#22c55e;text-shadow:0 0 40px rgba(34,197,94,.4);line-height:1;margin:10px 0}
-  .footer{text-align:center;padding:20px;font-size:.7rem;color:#333;letter-spacing:.1em}
+  .footer{text-align:center;padding:24px 20px;font-size:.7rem;color:#333;letter-spacing:.1em}
   .chevron{font-size:1.2rem;transition:transform .2s;display:inline-block}
   .chevron.open{transform:rotate(180deg)}
+
+  /* BIG TIMER MODE — when running */
+  .timer-big .timer-display{font-size:clamp(6rem,28vw,14rem)!important;margin:16px 0!important}
+  .timer-big .round-label{font-size:clamp(1.4rem,4vw,2rem)!important;margin-bottom:8px}
+  .timer-big .status-label{font-size:clamp(1rem,2.5vw,1.3rem)!important}
+  .timer-big .timer-notes{font-size:clamp(.9rem,2vw,1.1rem)!important;max-width:600px}
+
+  /* 10 second warning flash */
+  @keyframes warningPulse{0%{opacity:1}50%{opacity:.6}100%{opacity:1}}
+  .timer-warning .timer-display{animation:warningPulse .5s ease-in-out infinite;color:#ef4444!important;text-shadow:0 0 60px rgba(239,68,68,.7)!important}
+
+  /* Drill animation container */
+  .drill-anim-wrap{display:flex;justify-content:center;align-items:center;margin:12px auto;width:180px;height:180px;position:relative}
+  .drill-anim-wrap svg{width:100%;height:100%}
+  @keyframes strikeForward{0%{transform:translateX(0)}30%{transform:translateX(28px)}60%{transform:translateX(28px)}100%{transform:translateX(0)}}
+  @keyframes strikeUp{0%{transform:translateY(0)}30%{transform:translateY(-24px)}60%{transform:translateY(-24px)}100%{transform:translateY(0)}}
+  @keyframes kickSwing{0%{transform:rotate(0deg)}35%{transform:rotate(50deg)}65%{transform:rotate(50deg)}100%{transform:rotate(0deg)}}
+  @keyframes kneeUp{0%{transform:translateY(0) rotate(0)}35%{transform:translateY(-30px) rotate(-20deg)}65%{transform:translateY(-30px) rotate(-20deg)}100%{transform:translateY(0) rotate(0)}}
+  @keyframes teepPush{0%{transform:translateX(0) translateY(0)}35%{transform:translateX(20px) translateY(-10px)}65%{transform:translateX(20px) translateY(-10px)}100%{transform:translateX(0) translateY(0)}}
+  @keyframes bobWeave{0%{transform:translateY(0)}25%{transform:translateY(8px) translateX(-6px)}50%{transform:translateY(0)}75%{transform:translateY(8px) translateX(6px)}100%{transform:translateY(0)}}
+  @keyframes armPunch1{0%{transform:translateX(0)}20%{transform:translateX(22px)}35%{transform:translateX(0)}50%{transform:translateX(0)}70%{transform:translateX(22px)}85%{transform:translateX(0)}100%{transform:translateX(0)}}
+  @keyframes armHook{0%{transform:rotate(0)}30%{transform:rotate(-40deg) translateX(10px)}60%{transform:rotate(-40deg) translateX(10px)}100%{transform:rotate(0)}}
+  @keyframes stretch1{0%{transform:rotate(0)}50%{transform:rotate(10deg)}100%{transform:rotate(0)}}
+
   @media(max-width:480px){
-    .title{font-size:1.6rem}
-    .timer-display{font-size:4.5rem}
-    .week-tab{padding:6px 12px;font-size:.75rem}
+    .week-tab{padding:8px 11px;font-size:.72rem}
+    .session-card{margin:10px 12px;padding:16px}
+    .controls{gap:8px}
+    .btn-primary{padding:14px 32px;font-size:.95rem}
+    .drill-anim-wrap{width:140px;height:140px}
+  }
+  @media(min-width:768px){
+    .session-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 4px}
+    .session-card{margin:10px 12px}
+    .drill-anim-wrap{width:200px;height:200px}
   }
 </style>
 </head>
@@ -74,529 +112,616 @@
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script>
-const e = React.createElement;
-const {useState, useEffect, useRef, useCallback} = React;
+var e=React.createElement,useState=React.useState,useEffect=React.useEffect,useRef=React.useRef,useCallback=React.useCallback;
 
-// ─── DATA ───────────────────────────────────────────────────────────
-const PHASES = [
+var PHASES=[
   {name:"FOUNDATION",weeks:[1,2],color:"#22d3ee",desc:"Build fundamentals & rhythm"},
   {name:"BUILD",weeks:[3,4],color:"#f59e0b",desc:"Power combinations & timing"},
-  {name:"FLOW",weeks:[5,6],color:"#ef4444",desc:"Fluid chains & fight simulation"},
+  {name:"FLOW",weeks:[5,6],color:"#ef4444",desc:"Fluid chains & fight simulation"}
 ];
 
-const PROGRAM = {
+var PROGRAM={
   1:[
     {name:"Jab & Cross Basics",desc:"Master the 1-2 foundation. Focus on stance, hip rotation, and snap.",rounds:[
-      {type:"warmup",name:"Shadow Warm-Up",duration:120,rest:30,notes:"Light bouncing, arm circles, shadow jabs. Get loose."},
-      {type:"round",name:"Jab Drill",duration:120,rest:30,notes:"Straight jab, full extension. Snap it back. Stay on the ball of your front foot."},
-      {type:"round",name:"Cross Drill",duration:120,rest:30,notes:"Rotate the rear hip fully. Power comes from the ground up. Reset stance each time."},
-      {type:"round",name:"1-2 Combo",duration:120,rest:30,notes:"Jab sets the range, cross delivers power. Keep your chin tucked."},
-      {type:"round",name:"1-2 Freestyle",duration:150,rest:30,notes:"Mix timing — double jabs, stutter step, then cross. Find your rhythm."},
-      {type:"cooldown",name:"Light Bag Work + Stretch",duration:120,rest:0,notes:"Gentle taps on the bag. Deep breathing. Stretch shoulders and hips."},
+      {type:"warmup",name:"Shadow Warm-Up",duration:120,rest:30,notes:"Light bouncing, arm circles, shadow jabs. Get loose.",anim:"shadow"},
+      {type:"round",name:"Jab Drill",duration:120,rest:30,notes:"Straight jab, full extension. Snap it back. Stay on the ball of your front foot.",anim:"jab"},
+      {type:"round",name:"Cross Drill",duration:120,rest:30,notes:"Rotate the rear hip fully. Power comes from the ground up. Reset stance each time.",anim:"cross"},
+      {type:"round",name:"1-2 Combo",duration:120,rest:30,notes:"Jab sets the range, cross delivers power. Keep your chin tucked.",anim:"jab-cross"},
+      {type:"round",name:"1-2 Freestyle",duration:150,rest:30,notes:"Mix timing \u2014 double jabs, stutter step, then cross. Find your rhythm.",anim:"jab-cross"},
+      {type:"cooldown",name:"Light Bag Work + Stretch",duration:120,rest:0,notes:"Gentle taps on the bag. Deep breathing. Stretch shoulders and hips.",anim:"stretch"}
     ]},
     {name:"Kick Introduction",desc:"Introduce the rear roundhouse. Build hip turnover and balance.",rounds:[
-      {type:"warmup",name:"Dynamic Warm-Up",duration:120,rest:30,notes:"Leg swings, hip circles, light shadow kicks. Loosen the hips."},
-      {type:"round",name:"Rear Roundhouse — Slow",duration:120,rest:30,notes:"Turn on the ball of your lead foot. Shin connects to the bag. Slow and controlled."},
-      {type:"round",name:"Rear Roundhouse — Power",duration:120,rest:30,notes:"Now add speed. Whip the hip through. Hands stay up protecting your face."},
-      {type:"round",name:"Jab + Rear Kick",duration:120,rest:30,notes:"Jab to close distance, rear kick follows immediately. One-two rhythm."},
-      {type:"round",name:"Kick Combos",duration:150,rest:30,notes:"Alternate: jab-kick, cross-kick. Find which feels natural."},
-      {type:"cooldown",name:"Stretch & Reset",duration:120,rest:0,notes:"Quad stretch, hip flexor opener, calf stretch. Breathe deep."},
+      {type:"warmup",name:"Dynamic Warm-Up",duration:120,rest:30,notes:"Leg swings, hip circles, light shadow kicks. Loosen the hips.",anim:"shadow"},
+      {type:"round",name:"Rear Roundhouse \u2014 Slow",duration:120,rest:30,notes:"Turn on the ball of your lead foot. Shin connects to the bag. Slow and controlled.",anim:"kick"},
+      {type:"round",name:"Rear Roundhouse \u2014 Power",duration:120,rest:30,notes:"Now add speed. Whip the hip through. Hands stay up protecting your face.",anim:"kick"},
+      {type:"round",name:"Jab + Rear Kick",duration:120,rest:30,notes:"Jab to close distance, rear kick follows immediately. One-two rhythm.",anim:"jab-kick"},
+      {type:"round",name:"Kick Combos",duration:150,rest:30,notes:"Alternate: jab-kick, cross-kick. Find which feels natural.",anim:"jab-kick"},
+      {type:"cooldown",name:"Stretch & Reset",duration:120,rest:0,notes:"Quad stretch, hip flexor opener, calf stretch. Breathe deep.",anim:"stretch"}
     ]},
     {name:"Defense & Teep",desc:"Push kick fundamentals. Control distance like a Thai fighter.",rounds:[
-      {type:"warmup",name:"Footwork Warm-Up",duration:120,rest:30,notes:"In-out movement, lateral slides. Stay on the balls of your feet."},
-      {type:"round",name:"Teep (Push Kick)",duration:120,rest:30,notes:"Drive the ball of your foot into the bag. Extend the hip, not just the knee."},
-      {type:"round",name:"Teep + Step Back",duration:120,rest:30,notes:"Teep, then immediately step back out of range. Reset your stance."},
-      {type:"round",name:"Jab-Cross-Teep",duration:120,rest:30,notes:"1-2 to close, teep to push away. This is range management."},
-      {type:"round",name:"Mixed Fundamentals",duration:150,rest:30,notes:"Freestyle: jab, cross, teep, kick. Use all your tools. Stay relaxed."},
-      {type:"cooldown",name:"Cool Down",duration:120,rest:0,notes:"Light movement, deep stretching. Focus on hip openers."},
-    ]},
+      {type:"warmup",name:"Footwork Warm-Up",duration:120,rest:30,notes:"In-out movement, lateral slides. Stay on the balls of your feet.",anim:"shadow"},
+      {type:"round",name:"Teep (Push Kick)",duration:120,rest:30,notes:"Drive the ball of your foot into the bag. Extend the hip, not just the knee.",anim:"teep"},
+      {type:"round",name:"Teep + Step Back",duration:120,rest:30,notes:"Teep, then immediately step back out of range. Reset your stance.",anim:"teep"},
+      {type:"round",name:"Jab-Cross-Teep",duration:120,rest:30,notes:"1-2 to close, teep to push away. This is range management.",anim:"jab-cross"},
+      {type:"round",name:"Mixed Fundamentals",duration:150,rest:30,notes:"Freestyle: jab, cross, teep, kick. Use all your tools. Stay relaxed.",anim:"combo"},
+      {type:"cooldown",name:"Cool Down",duration:120,rest:0,notes:"Light movement, deep stretching. Focus on hip openers.",anim:"stretch"}
+    ]}
   ],
   2:[
     {name:"Hook & Low Kick",desc:"Add the lead hook and devastating low kick to your arsenal.",rounds:[
-      {type:"warmup",name:"Shadow Boxing",duration:120,rest:30,notes:"Full shadow round — jab, cross, teep, kicks. Get the blood moving."},
-      {type:"round",name:"Lead Hook",duration:120,rest:30,notes:"Elbow at 90°, rotate from the hips. Short, tight arc. Don't wind up."},
-      {type:"round",name:"Low Kick Drill",duration:120,rest:30,notes:"Target the lower third of the bag. Chop down at an angle. Turn over the hip."},
-      {type:"round",name:"1-2-Hook",duration:120,rest:30,notes:"Jab-cross sets it up, hook finishes. The hook lands as the cross retracts."},
-      {type:"round",name:"1-2 + Low Kick",duration:150,rest:30,notes:"Punch combo to the head, low kick to the legs. High-low combination."},
-      {type:"cooldown",name:"Active Recovery",duration:120,rest:0,notes:"Very light taps, breathing focus. Stretch everything."},
+      {type:"warmup",name:"Shadow Boxing",duration:120,rest:30,notes:"Full shadow round \u2014 jab, cross, teep, kicks. Get the blood moving.",anim:"shadow"},
+      {type:"round",name:"Lead Hook",duration:120,rest:30,notes:"Elbow at 90\u00B0, rotate from the hips. Short, tight arc. Don't wind up.",anim:"hook"},
+      {type:"round",name:"Low Kick Drill",duration:120,rest:30,notes:"Target the lower third of the bag. Chop down at an angle. Turn over the hip.",anim:"lowkick"},
+      {type:"round",name:"1-2-Hook",duration:120,rest:30,notes:"Jab-cross sets it up, hook finishes. The hook lands as the cross retracts.",anim:"combo"},
+      {type:"round",name:"1-2 + Low Kick",duration:150,rest:30,notes:"Punch combo to the head, low kick to the legs. High-low combination.",anim:"jab-kick"},
+      {type:"cooldown",name:"Active Recovery",duration:120,rest:0,notes:"Very light taps, breathing focus. Stretch everything.",anim:"stretch"}
     ]},
     {name:"Combination Builder",desc:"Chain techniques together. Start building fight-ready combos.",rounds:[
-      {type:"warmup",name:"Combo Shadow",duration:120,rest:30,notes:"Shadow 1-2-hook, 1-2-kick. Visualize a target. Move your feet."},
-      {type:"round",name:"1-2-3 (Jab-Cross-Hook)",duration:120,rest:30,notes:"The classic three-punch combo. Snap each shot. Return to guard after the hook."},
-      {type:"round",name:"1-2-Low Kick",duration:120,rest:30,notes:"Hands to body, kick to legs. High-low attack. Reset stance after the kick."},
-      {type:"round",name:"Jab-Rear Kick",duration:120,rest:30,notes:"Jab is the range-finder. Kick follows with full hip rotation."},
-      {type:"round",name:"Freestyle Combos",duration:180,rest:30,notes:"Mix everything you know. 3-4 strike combos. Move between combos."},
-      {type:"cooldown",name:"Stretch & Breathe",duration:120,rest:0,notes:"Full body stretch. Focus on recovery breathing. You earned it."},
+      {type:"warmup",name:"Combo Shadow",duration:120,rest:30,notes:"Shadow 1-2-hook, 1-2-kick. Visualize a target. Move your feet.",anim:"shadow"},
+      {type:"round",name:"1-2-3 (Jab-Cross-Hook)",duration:120,rest:30,notes:"The classic three-punch combo. Snap each shot. Return to guard after the hook.",anim:"combo"},
+      {type:"round",name:"1-2-Low Kick",duration:120,rest:30,notes:"Hands to body, kick to legs. High-low attack. Reset stance after the kick.",anim:"jab-kick"},
+      {type:"round",name:"Jab-Rear Kick",duration:120,rest:30,notes:"Jab is the range-finder. Kick follows with full hip rotation.",anim:"jab-kick"},
+      {type:"round",name:"Freestyle Combos",duration:180,rest:30,notes:"Mix everything you know. 3-4 strike combos. Move between combos.",anim:"combo"},
+      {type:"cooldown",name:"Stretch & Breathe",duration:120,rest:0,notes:"Full body stretch. Focus on recovery breathing. You earned it.",anim:"stretch"}
     ]},
     {name:"Endurance Foundation",desc:"Push the pace. Build cardio while maintaining technique.",rounds:[
-      {type:"warmup",name:"High-Tempo Shadow",duration:120,rest:30,notes:"Fast shadow boxing. Stay light on your feet. Keep hands up."},
-      {type:"round",name:"Jab Flurries",duration:90,rest:20,notes:"Rapid-fire jabs — 10 in a row, reset, repeat. Speed over power."},
-      {type:"round",name:"1-2 Burnout",duration:90,rest:20,notes:"Non-stop 1-2s. When you gas out, slow down but don't stop."},
-      {type:"round",name:"Kick Intervals",duration:90,rest:20,notes:"Alternate: 5 right kicks, 5 left kicks. Keep the pace honest."},
-      {type:"round",name:"All-Out Combo",duration:120,rest:30,notes:"Any combo you want, maximum output. Leave it all on the bag."},
-      {type:"round",name:"Teep + Move",duration:90,rest:20,notes:"Teep the bag, circle out. Teep again. Control the range under fatigue."},
-      {type:"cooldown",name:"Recovery",duration:120,rest:0,notes:"Walk it off. Deep breathing. Stretch hip flexors and shoulders."},
-    ]},
+      {type:"warmup",name:"High-Tempo Shadow",duration:120,rest:30,notes:"Fast shadow boxing. Stay light on your feet. Keep hands up.",anim:"shadow"},
+      {type:"round",name:"Jab Flurries",duration:90,rest:20,notes:"Rapid-fire jabs \u2014 10 in a row, reset, repeat. Speed over power.",anim:"jab"},
+      {type:"round",name:"1-2 Burnout",duration:90,rest:20,notes:"Non-stop 1-2s. When you gas out, slow down but don't stop.",anim:"jab-cross"},
+      {type:"round",name:"Kick Intervals",duration:90,rest:20,notes:"Alternate: 5 right kicks, 5 left kicks. Keep the pace honest.",anim:"kick"},
+      {type:"round",name:"All-Out Combo",duration:120,rest:30,notes:"Any combo you want, maximum output. Leave it all on the bag.",anim:"combo"},
+      {type:"round",name:"Teep + Move",duration:90,rest:20,notes:"Teep the bag, circle out. Teep again. Control the range under fatigue.",anim:"teep"},
+      {type:"cooldown",name:"Recovery",duration:120,rest:0,notes:"Walk it off. Deep breathing. Stretch hip flexors and shoulders.",anim:"stretch"}
+    ]}
   ],
   3:[
     {name:"Power Combinations",desc:"Load up the power shots. Rear hand, rear kick, commit to each strike.",rounds:[
-      {type:"warmup",name:"Power Shadow",duration:120,rest:30,notes:"Slow, heavy shadow shots. Feel each one. Exhale sharply on strikes."},
-      {type:"round",name:"Heavy Cross",duration:120,rest:30,notes:"Sit down on the cross. Full hip rotation. Drive through the bag."},
-      {type:"round",name:"Power Kick",duration:120,rest:30,notes:"Step into each kick. Turn the hip over completely. Swing through the bag."},
-      {type:"round",name:"1-2-Low Kick (Power)",duration:120,rest:30,notes:"Every shot at 80% power. Jab snaps, cross cracks, low kick chops."},
-      {type:"round",name:"Hook-Cross-Hook",duration:150,rest:30,notes:"3-2-3 combination. Rotate fully on each hook. Power from the core."},
-      {type:"cooldown",name:"Shake Out & Stretch",duration:120,rest:0,notes:"Shake your arms loose. Deep stretches. Recovery is part of training."},
+      {type:"warmup",name:"Power Shadow",duration:120,rest:30,notes:"Slow, heavy shadow shots. Feel each one. Exhale sharply on strikes.",anim:"shadow"},
+      {type:"round",name:"Heavy Cross",duration:120,rest:30,notes:"Sit down on the cross. Full hip rotation. Drive through the bag.",anim:"cross"},
+      {type:"round",name:"Power Kick",duration:120,rest:30,notes:"Step into each kick. Turn the hip over completely. Swing through the bag.",anim:"kick"},
+      {type:"round",name:"1-2-Low Kick (Power)",duration:120,rest:30,notes:"Every shot at 80% power. Jab snaps, cross cracks, low kick chops.",anim:"jab-kick"},
+      {type:"round",name:"Hook-Cross-Hook",duration:150,rest:30,notes:"3-2-3 combination. Rotate fully on each hook. Power from the core.",anim:"combo"},
+      {type:"cooldown",name:"Shake Out & Stretch",duration:120,rest:0,notes:"Shake your arms loose. Deep stretches. Recovery is part of training.",anim:"stretch"}
     ]},
     {name:"Knee & Clinch Work",desc:"Introduce devastating knees. Close-range warfare.",rounds:[
-      {type:"warmup",name:"Clinch Shadow",duration:120,rest:30,notes:"Shadow clinch entries. Swim your hands to collar tie position."},
-      {type:"round",name:"Straight Knee",duration:120,rest:30,notes:"Drive the knee straight up. Hips forward. Pull the bag toward you as you knee."},
-      {type:"round",name:"Curved Knee",duration:120,rest:30,notes:"Knee strikes from the side. Open the hip. Target the midsection of the bag."},
-      {type:"round",name:"1-2 to Knee",duration:120,rest:30,notes:"Close distance with punches, grab the bag (clinch), drive knees."},
-      {type:"round",name:"Knee Flurries",duration:150,rest:30,notes:"Alternating knees — left, right, left, right. Don't let the bag rest."},
-      {type:"cooldown",name:"Hip Stretch & Recovery",duration:120,rest:0,notes:"Deep hip and groin stretches. Knees demand hip mobility."},
+      {type:"warmup",name:"Clinch Shadow",duration:120,rest:30,notes:"Shadow clinch entries. Swim your hands to collar tie position.",anim:"shadow"},
+      {type:"round",name:"Straight Knee",duration:120,rest:30,notes:"Drive the knee straight up. Hips forward. Pull the bag toward you as you knee.",anim:"knee"},
+      {type:"round",name:"Curved Knee",duration:120,rest:30,notes:"Knee strikes from the side. Open the hip. Target the midsection of the bag.",anim:"knee"},
+      {type:"round",name:"1-2 to Knee",duration:120,rest:30,notes:"Close distance with punches, grab the bag (clinch), drive knees.",anim:"knee"},
+      {type:"round",name:"Knee Flurries",duration:150,rest:30,notes:"Alternating knees \u2014 left, right, left, right. Don't let the bag rest.",anim:"knee"},
+      {type:"cooldown",name:"Hip Stretch & Recovery",duration:120,rest:0,notes:"Deep hip and groin stretches. Knees demand hip mobility.",anim:"stretch"}
     ]},
     {name:"Timing & Angles",desc:"Attack from different angles. Set traps with timing changes.",rounds:[
-      {type:"warmup",name:"Angle Shadow",duration:120,rest:30,notes:"Shadow box while stepping off at angles. Never stay in one spot."},
-      {type:"round",name:"Jab-Step-Cross",duration:120,rest:30,notes:"Jab, step to the outside angle, cross from the new position."},
-      {type:"round",name:"Switch Kick",duration:120,rest:30,notes:"Switch stance quickly, kick off the new rear leg. Speed and deception."},
-      {type:"round",name:"1-2, Angle, Hook",duration:120,rest:30,notes:"Straight shots, pivot 45°, throw the hook from the new angle."},
-      {type:"round",name:"Delayed Power Shot",duration:150,rest:30,notes:"Feint with light shots, pause... then CRACK with a power shot. Break their timing."},
-      {type:"cooldown",name:"Movement Cool Down",duration:120,rest:0,notes:"Light footwork, easy breathing. Let the heart rate come down gradually."},
-    ]},
+      {type:"warmup",name:"Angle Shadow",duration:120,rest:30,notes:"Shadow box while stepping off at angles. Never stay in one spot.",anim:"shadow"},
+      {type:"round",name:"Jab-Step-Cross",duration:120,rest:30,notes:"Jab, step to the outside angle, cross from the new position.",anim:"jab-cross"},
+      {type:"round",name:"Switch Kick",duration:120,rest:30,notes:"Switch stance quickly, kick off the new rear leg. Speed and deception.",anim:"kick"},
+      {type:"round",name:"1-2, Angle, Hook",duration:120,rest:30,notes:"Straight shots, pivot 45\u00B0, throw the hook from the new angle.",anim:"combo"},
+      {type:"round",name:"Delayed Power Shot",duration:150,rest:30,notes:"Feint with light shots, pause... then CRACK with a power shot. Break their timing.",anim:"cross"},
+      {type:"cooldown",name:"Movement Cool Down",duration:120,rest:0,notes:"Light footwork, easy breathing. Let the heart rate come down gradually.",anim:"stretch"}
+    ]}
   ],
   4:[
     {name:"Long Combinations",desc:"5-6 strike chains. Keep the pressure on. Overwhelm the bag.",rounds:[
-      {type:"warmup",name:"Flow Shadow",duration:120,rest:30,notes:"Long flowing shadow combos. Don't think, just move. 5+ strikes per burst."},
-      {type:"round",name:"1-2-3-Low Kick",duration:120,rest:30,notes:"Jab-cross-hook upstairs, low kick to finish. Four weapons, one flow."},
-      {type:"round",name:"1-2-Knee-Elbow Sim",duration:120,rest:30,notes:"Punches to close, knee in clinch range, simulate elbow with a hook. Close-range chain."},
-      {type:"round",name:"Kick-Punch-Kick",duration:120,rest:30,notes:"Lead with a kick, punch combo in the middle, end with another kick. Bookend strikes."},
-      {type:"round",name:"6-Count Freestyle",duration:180,rest:30,notes:"Every combo must be 6 strikes. Mix punches, kicks, knees. Be creative."},
-      {type:"cooldown",name:"Controlled Cool Down",duration:120,rest:0,notes:"Very light work. Focus on breathing. Full stretch routine."},
+      {type:"warmup",name:"Flow Shadow",duration:120,rest:30,notes:"Long flowing shadow combos. Don't think, just move. 5+ strikes per burst.",anim:"shadow"},
+      {type:"round",name:"1-2-3-Low Kick",duration:120,rest:30,notes:"Jab-cross-hook upstairs, low kick to finish. Four weapons, one flow.",anim:"combo"},
+      {type:"round",name:"1-2-Knee-Elbow Sim",duration:120,rest:30,notes:"Punches to close, knee in clinch range, simulate elbow with a hook.",anim:"knee"},
+      {type:"round",name:"Kick-Punch-Kick",duration:120,rest:30,notes:"Lead with a kick, punch combo in the middle, end with another kick.",anim:"jab-kick"},
+      {type:"round",name:"6-Count Freestyle",duration:180,rest:30,notes:"Every combo must be 6 strikes. Mix punches, kicks, knees. Be creative.",anim:"combo"},
+      {type:"cooldown",name:"Controlled Cool Down",duration:120,rest:0,notes:"Very light work. Focus on breathing. Full stretch routine.",anim:"stretch"}
     ]},
     {name:"Pressure Fighter",desc:"Walk the bag down. Constant forward pressure with strikes.",rounds:[
-      {type:"warmup",name:"Aggressive Shadow",duration:120,rest:30,notes:"Shadow with forward pressure. Every combo moves you forward."},
-      {type:"round",name:"Marching 1-2s",duration:120,rest:30,notes:"Step forward with each 1-2. Push the bag back. Don't let it settle."},
-      {type:"round",name:"Body-Head-Body",duration:120,rest:30,notes:"Hook to the body, cross upstairs, hook to the body again. Level changes."},
-      {type:"round",name:"Pressure Kicks",duration:120,rest:30,notes:"Kick, step forward, kick again. Maintain forward movement after each kick."},
-      {type:"round",name:"Volume Round",duration:180,rest:30,notes:"Maximum output. Every technique you know, maximum volume. Survive the round."},
-      {type:"cooldown",name:"Wind Down",duration:120,rest:0,notes:"Slow, easy movement. Recover your breathing. Long stretches."},
+      {type:"warmup",name:"Aggressive Shadow",duration:120,rest:30,notes:"Shadow with forward pressure. Every combo moves you forward.",anim:"shadow"},
+      {type:"round",name:"Marching 1-2s",duration:120,rest:30,notes:"Step forward with each 1-2. Push the bag back. Don't let it settle.",anim:"jab-cross"},
+      {type:"round",name:"Body-Head-Body",duration:120,rest:30,notes:"Hook to the body, cross upstairs, hook to the body again. Level changes.",anim:"hook"},
+      {type:"round",name:"Pressure Kicks",duration:120,rest:30,notes:"Kick, step forward, kick again. Maintain forward movement after each kick.",anim:"kick"},
+      {type:"round",name:"Volume Round",duration:180,rest:30,notes:"Maximum output. Every technique you know, maximum volume.",anim:"combo"},
+      {type:"cooldown",name:"Wind Down",duration:120,rest:0,notes:"Slow, easy movement. Recover your breathing. Long stretches.",anim:"stretch"}
     ]},
     {name:"Counter Fighter",desc:"Wait, read, explode. Counter-attacking mindset.",rounds:[
-      {type:"warmup",name:"Reactive Shadow",duration:120,rest:30,notes:"Imagine attacks coming. Slip, then counter. Build the defensive reflex."},
-      {type:"round",name:"Catch & Counter",duration:120,rest:30,notes:"Let the bag swing toward you, block/parry, counter with a cross or hook."},
-      {type:"round",name:"Check + Kick",duration:120,rest:30,notes:"Simulate checking a kick (lift your shin), immediately counter with your own kick."},
-      {type:"round",name:"Slip-Cross-Hook",duration:120,rest:30,notes:"Slip to the outside, cross from the angle, follow with a hook. Classic counter combo."},
-      {type:"round",name:"Counter Freestyle",duration:150,rest:30,notes:"Push the bag, let it come back, counter with any combo. Timing is everything."},
-      {type:"cooldown",name:"Recovery Round",duration:120,rest:0,notes:"Easy breathing, gentle movement. Full-body stretch. Respect the recovery."},
-    ]},
+      {type:"warmup",name:"Reactive Shadow",duration:120,rest:30,notes:"Imagine attacks coming. Slip, then counter. Build the defensive reflex.",anim:"shadow"},
+      {type:"round",name:"Catch & Counter",duration:120,rest:30,notes:"Let the bag swing toward you, block/parry, counter with a cross or hook.",anim:"cross"},
+      {type:"round",name:"Check + Kick",duration:120,rest:30,notes:"Simulate checking a kick, immediately counter with your own kick.",anim:"kick"},
+      {type:"round",name:"Slip-Cross-Hook",duration:120,rest:30,notes:"Slip to the outside, cross from the angle, follow with a hook.",anim:"combo"},
+      {type:"round",name:"Counter Freestyle",duration:150,rest:30,notes:"Push the bag, let it come back, counter with any combo. Timing is everything.",anim:"combo"},
+      {type:"cooldown",name:"Recovery Round",duration:120,rest:0,notes:"Easy breathing, gentle movement. Full-body stretch.",anim:"stretch"}
+    ]}
   ],
   5:[
-    {name:"Flow State — Hands",desc:"Let the hands flow. Non-stop boxing with Muay Thai flavor.",rounds:[
-      {type:"warmup",name:"Boxing Shadow",duration:120,rest:30,notes:"Pure hands shadow boxing. Jabs, crosses, hooks, uppercut motions. Flow."},
-      {type:"round",name:"Non-Stop Hands",duration:150,rest:30,notes:"Don't stop punching. Vary power and speed but keep the hands moving."},
-      {type:"round",name:"3-Punch Chains",duration:150,rest:30,notes:"Any 3-punch combo, then move. New combo. Move again. Constant variety."},
-      {type:"round",name:"Hands + Low Kick Exit",duration:150,rest:30,notes:"Punch combo, finish with a low kick, angle out. Every time."},
-      {type:"round",name:"Pressure Boxing",duration:180,rest:30,notes:"Walk forward, throw leather. Channel your inner Muay Maat (puncher)."},
-      {type:"cooldown",name:"Shadow & Stretch",duration:120,rest:0,notes:"Light shadow, then deep stretch. Wrists, forearms, shoulders."},
+    {name:"Flow State \u2014 Hands",desc:"Let the hands flow. Non-stop boxing with Muay Thai flavor.",rounds:[
+      {type:"warmup",name:"Boxing Shadow",duration:120,rest:30,notes:"Pure hands shadow boxing. Jabs, crosses, hooks, uppercut motions. Flow.",anim:"shadow"},
+      {type:"round",name:"Non-Stop Hands",duration:150,rest:30,notes:"Don't stop punching. Vary power and speed but keep the hands moving.",anim:"jab-cross"},
+      {type:"round",name:"3-Punch Chains",duration:150,rest:30,notes:"Any 3-punch combo, then move. New combo. Move again. Constant variety.",anim:"combo"},
+      {type:"round",name:"Hands + Low Kick Exit",duration:150,rest:30,notes:"Punch combo, finish with a low kick, angle out. Every time.",anim:"jab-kick"},
+      {type:"round",name:"Pressure Boxing",duration:180,rest:30,notes:"Walk forward, throw leather. Channel your inner Muay Maat (puncher).",anim:"combo"},
+      {type:"cooldown",name:"Shadow & Stretch",duration:120,rest:0,notes:"Light shadow, then deep stretch. Wrists, forearms, shoulders.",anim:"stretch"}
     ]},
-    {name:"Flow State — Kicks",desc:"Kick-dominant session. Build devastating kicking power and fluidity.",rounds:[
-      {type:"warmup",name:"Kick Shadow",duration:120,rest:30,notes:"Shadow kicks only. Both sides. Teeps, roundhouse, low kicks. Open those hips."},
-      {type:"round",name:"Right Kick Series",duration:120,rest:30,notes:"Rear roundhouse: low, mid, high. 5 each level. Controlled power."},
-      {type:"round",name:"Left Kick Series",duration:120,rest:30,notes:"Switch to southpaw or lead kick. Same drill: low, mid, high. Balance both sides."},
-      {type:"round",name:"Kick + Punch + Kick",duration:150,rest:30,notes:"Lead with a kick, punch in the middle, end with a kick. Kick sandwich."},
-      {type:"round",name:"Continuous Kicking",duration:180,rest:30,notes:"Alternating kicks — right, left, right, left. Don't stop. Breathe through it."},
-      {type:"cooldown",name:"Hip & Leg Recovery",duration:120,rest:0,notes:"Deep hip flexor stretches, hamstring, quads. Your legs need this."},
+    {name:"Flow State \u2014 Kicks",desc:"Kick-dominant session. Build devastating kicking power and fluidity.",rounds:[
+      {type:"warmup",name:"Kick Shadow",duration:120,rest:30,notes:"Shadow kicks only. Both sides. Teeps, roundhouse, low kicks.",anim:"shadow"},
+      {type:"round",name:"Right Kick Series",duration:120,rest:30,notes:"Rear roundhouse: low, mid, high. 5 each level. Controlled power.",anim:"kick"},
+      {type:"round",name:"Left Kick Series",duration:120,rest:30,notes:"Switch to southpaw or lead kick. Same drill: low, mid, high.",anim:"kick"},
+      {type:"round",name:"Kick + Punch + Kick",duration:150,rest:30,notes:"Lead with a kick, punch in the middle, end with a kick. Kick sandwich.",anim:"jab-kick"},
+      {type:"round",name:"Continuous Kicking",duration:180,rest:30,notes:"Alternating kicks \u2014 right, left, right, left. Don't stop.",anim:"kick"},
+      {type:"cooldown",name:"Hip & Leg Recovery",duration:120,rest:0,notes:"Deep hip flexor stretches, hamstring, quads. Your legs need this.",anim:"stretch"}
     ]},
     {name:"Full Arsenal Flow",desc:"Everything together. Punches, kicks, knees, teeps. Be water.",rounds:[
-      {type:"warmup",name:"Full Shadow",duration:120,rest:30,notes:"Shadow using every weapon — hands, kicks, knees, teeps. Move freely."},
-      {type:"round",name:"Weapons Roulette",duration:150,rest:30,notes:"10 jabs, 10 crosses, 10 hooks, 10 kicks, 10 knees, 10 teeps. Cycle through."},
-      {type:"round",name:"5-Strike Minimum",duration:150,rest:30,notes:"Every combo must have at least 5 strikes using different techniques."},
-      {type:"round",name:"Rhythm Round",duration:150,rest:30,notes:"Find a rhythm. Boom-boom-BOOM. Light-light-HEAVY. Make it musical."},
-      {type:"round",name:"All-Out Flow",duration:180,rest:30,notes:"Everything, all out. No thinking, just fighting. Trust your training."},
-      {type:"cooldown",name:"Meditation Cool Down",duration:120,rest:0,notes:"Stand still. Breathe. Reflect on how far you've come. Full stretch."},
-    ]},
+      {type:"warmup",name:"Full Shadow",duration:120,rest:30,notes:"Shadow using every weapon \u2014 hands, kicks, knees, teeps. Move freely.",anim:"shadow"},
+      {type:"round",name:"Weapons Roulette",duration:150,rest:30,notes:"10 jabs, 10 crosses, 10 hooks, 10 kicks, 10 knees, 10 teeps. Cycle through.",anim:"combo"},
+      {type:"round",name:"5-Strike Minimum",duration:150,rest:30,notes:"Every combo must have at least 5 strikes using different techniques.",anim:"combo"},
+      {type:"round",name:"Rhythm Round",duration:150,rest:30,notes:"Find a rhythm. Boom-boom-BOOM. Light-light-HEAVY. Make it musical.",anim:"combo"},
+      {type:"round",name:"All-Out Flow",duration:180,rest:30,notes:"Everything, all out. No thinking, just fighting. Trust your training.",anim:"combo"},
+      {type:"cooldown",name:"Meditation Cool Down",duration:120,rest:0,notes:"Stand still. Breathe. Reflect on how far you've come. Full stretch.",anim:"stretch"}
+    ]}
   ],
   6:[
-    {name:"Fight Simulation — Round 1",desc:"Simulate a real fight. Measured start, build intensity.",rounds:[
-      {type:"warmup",name:"Fight Prep",duration:120,rest:30,notes:"Shadow box like you're about to fight. Visualization. Deep breaths."},
-      {type:"round",name:"Feeling Out",duration:120,rest:30,notes:"Light jabs, teeps. Measure your distance. Don't overcommit. Like Round 1 of a fight."},
-      {type:"round",name:"Establishing Range",duration:120,rest:30,notes:"Start committing more. 1-2s, low kicks. Let them know you're there."},
-      {type:"round",name:"Building Pressure",duration:150,rest:30,notes:"Increase volume. Longer combos. More kicks. Take the center."},
-      {type:"round",name:"Championship Round",duration:180,rest:30,notes:"This is it. Everything you have. Leave nothing in the tank. Fight for the win."},
-      {type:"cooldown",name:"Victory Lap",duration:120,rest:0,notes:"You survived. Light movement, deep breathing, full stretch. Champion."},
+    {name:"Fight Simulation \u2014 Round 1",desc:"Simulate a real fight. Measured start, build intensity.",rounds:[
+      {type:"warmup",name:"Fight Prep",duration:120,rest:30,notes:"Shadow box like you're about to fight. Visualization. Deep breaths.",anim:"shadow"},
+      {type:"round",name:"Feeling Out",duration:120,rest:30,notes:"Light jabs, teeps. Measure your distance. Don't overcommit.",anim:"jab"},
+      {type:"round",name:"Establishing Range",duration:120,rest:30,notes:"Start committing more. 1-2s, low kicks. Let them know you're there.",anim:"jab-cross"},
+      {type:"round",name:"Building Pressure",duration:150,rest:30,notes:"Increase volume. Longer combos. More kicks. Take the center.",anim:"combo"},
+      {type:"round",name:"Championship Round",duration:180,rest:30,notes:"This is it. Everything you have. Leave nothing in the tank.",anim:"combo"},
+      {type:"cooldown",name:"Victory Lap",duration:120,rest:0,notes:"You survived. Light movement, deep breathing, full stretch. Champion.",anim:"stretch"}
     ]},
-    {name:"Fight Simulation — Aggressive",desc:"Come forward all session. Muay Khao (knee fighter) style.",rounds:[
-      {type:"warmup",name:"War Shadow",duration:120,rest:30,notes:"Aggressive shadow. Forward pressure from the start. Mean face on."},
-      {type:"round",name:"Marching Combos",duration:150,rest:30,notes:"Step forward with every combo. 1-2-3, step. Hook-cross-kick, step. Never retreat."},
-      {type:"round",name:"Clinch Knees",duration:120,rest:30,notes:"Grab the bag, drive knees. Alternating. This is your range now."},
-      {type:"round",name:"Body Destruction",duration:150,rest:30,notes:"Target the body — hooks, knees, low kicks. Break them down."},
-      {type:"round",name:"Final Push",duration:180,rest:30,notes:"Max aggression. Everything. Punches, kicks, knees. Be relentless."},
-      {type:"cooldown",name:"Warrior's Rest",duration:120,rest:0,notes:"Breathe. You gave it everything. Stretch deep. Recovery starts now."},
+    {name:"Fight Simulation \u2014 Aggressive",desc:"Come forward all session. Muay Khao style.",rounds:[
+      {type:"warmup",name:"War Shadow",duration:120,rest:30,notes:"Aggressive shadow. Forward pressure from the start. Mean face on.",anim:"shadow"},
+      {type:"round",name:"Marching Combos",duration:150,rest:30,notes:"Step forward with every combo. 1-2-3, step. Hook-cross-kick, step.",anim:"combo"},
+      {type:"round",name:"Clinch Knees",duration:120,rest:30,notes:"Grab the bag, drive knees. Alternating. This is your range now.",anim:"knee"},
+      {type:"round",name:"Body Destruction",duration:150,rest:30,notes:"Target the body \u2014 hooks, knees, low kicks. Break them down.",anim:"hook"},
+      {type:"round",name:"Final Push",duration:180,rest:30,notes:"Max aggression. Everything. Punches, kicks, knees. Be relentless.",anim:"combo"},
+      {type:"cooldown",name:"Warrior's Rest",duration:120,rest:0,notes:"Breathe. You gave it everything. Stretch deep. Recovery starts now.",anim:"stretch"}
     ]},
-    {name:"Final Exam — Complete Fighter",desc:"Your graduation session. Show everything you've learned.",rounds:[
-      {type:"warmup",name:"The Warm-Up",duration:120,rest:30,notes:"Full shadow boxing warm-up. Every technique. This is your moment."},
-      {type:"round",name:"Fundamentals Check",duration:120,rest:30,notes:"Clean jab, cross, hook, teep, kick. Show perfect form. Basics win fights."},
-      {type:"round",name:"Combination Mastery",duration:150,rest:30,notes:"Your best 5+ strike combinations. Show creativity and flow."},
-      {type:"round",name:"Power Showcase",duration:120,rest:30,notes:"Your hardest shots. Cross, hook, kick, knee. Maximum impact."},
-      {type:"round",name:"The Gauntlet",duration:180,rest:30,notes:"3 minutes. Everything. Maximum volume, maximum variety. Your final test."},
-      {type:"cooldown",name:"Graduate",duration:120,rest:0,notes:"You did it. 6 weeks. You're a different fighter now. Full stretch. Respect the journey."},
-    ]},
-  ],
+    {name:"Final Exam \u2014 Complete Fighter",desc:"Your graduation session. Show everything you've learned.",rounds:[
+      {type:"warmup",name:"The Warm-Up",duration:120,rest:30,notes:"Full shadow boxing warm-up. Every technique. This is your moment.",anim:"shadow"},
+      {type:"round",name:"Fundamentals Check",duration:120,rest:30,notes:"Clean jab, cross, hook, teep, kick. Show perfect form.",anim:"jab-cross"},
+      {type:"round",name:"Combination Mastery",duration:150,rest:30,notes:"Your best 5+ strike combinations. Show creativity and flow.",anim:"combo"},
+      {type:"round",name:"Power Showcase",duration:120,rest:30,notes:"Your hardest shots. Cross, hook, kick, knee. Maximum impact.",anim:"cross"},
+      {type:"round",name:"The Gauntlet",duration:180,rest:30,notes:"3 minutes. Everything. Maximum volume, maximum variety. Your final test.",anim:"combo"},
+      {type:"cooldown",name:"Graduate",duration:120,rest:0,notes:"You did it. 6 weeks. You're a different fighter now. Respect the journey.",anim:"stretch"}
+    ]}
+  ]
 };
 
-const DRILL_REFERENCE = [
-  {name:"Jab (1)",desc:"Lead hand straight punch. Snap from the shoulder, full extension. Return to guard fast. The most important strike in combat sports."},
-  {name:"Cross (2)",desc:"Rear hand straight punch. Rotate the rear hip and shoulder through. Power comes from the ground up through the kinetic chain."},
-  {name:"Lead Hook (3)",desc:"Lead hand arcing punch. Elbow stays at ~90\u00B0. Rotate from the hips, not the arm. Short, tight arc for speed and power."},
-  {name:"Rear Roundhouse Kick",desc:"Step at 45\u00B0, pivot on the ball of your lead foot. Turn the hip over completely. Shin is the weapon. Swing through the target."},
-  {name:"Low Kick",desc:"Same mechanics as the roundhouse but targeting the thigh. Angle down slightly. Chop into the target like an axe."},
-  {name:"Teep (Push Kick)",desc:"Lift the knee high, then extend the hip to push the ball of the foot into the target. A weapon for range control, not just power."},
-  {name:"Straight Knee",desc:"Drive the knee straight up while pushing the hips forward. Pull your opponent (or bag) toward the knee. Close-range devastation."},
-  {name:"Curved Knee",desc:"Knee strike from an angle. Open the hip to bring the knee in from the side. Targets the body/ribs in clinch range."},
-  {name:"Switch Kick",desc:"Quick stance switch \u2014 rear foot steps forward, original lead foot kicks. Used for speed and deception."},
-  {name:"1-2 Combo",desc:"Jab-Cross. The bread and butter of striking. Jab finds the range, cross delivers the power."},
-  {name:"1-2-3 Combo",desc:"Jab-Cross-Hook. The classic three-piece. Each strike sets up the next through natural rotation."},
-  {name:"Jab-Kick",desc:"Jab to close distance and occupy their hands, immediate rear kick. The jab hides the kick."},
+var DRILL_REFERENCE=[
+  {name:"Jab (1)",desc:"Lead hand straight punch. Snap from the shoulder, full extension. Return to guard fast."},
+  {name:"Cross (2)",desc:"Rear hand straight punch. Rotate the rear hip and shoulder through. Power from the ground up."},
+  {name:"Lead Hook (3)",desc:"Lead hand arcing punch. Elbow at ~90\u00B0. Rotate from hips. Short, tight arc."},
+  {name:"Rear Roundhouse",desc:"Step 45\u00B0, pivot on lead foot ball. Turn hip over completely. Shin is the weapon."},
+  {name:"Low Kick",desc:"Same as roundhouse targeting the thigh. Angle down slightly. Chop like an axe."},
+  {name:"Teep (Push Kick)",desc:"Lift knee high, extend hip to push ball of foot into target. Range control weapon."},
+  {name:"Straight Knee",desc:"Drive knee straight up, hips forward. Pull target toward the knee. Close-range devastation."},
+  {name:"Curved Knee",desc:"Knee from an angle. Open the hip. Targets body/ribs in clinch range."},
+  {name:"Switch Kick",desc:"Quick stance switch \u2014 rear steps forward, original lead kicks. Speed and deception."},
+  {name:"1-2 Combo",desc:"Jab-Cross. Bread and butter. Jab finds range, cross delivers power."},
+  {name:"1-2-3 Combo",desc:"Jab-Cross-Hook. The classic three-piece. Each strike sets up the next."},
+  {name:"Jab-Kick",desc:"Jab to close distance, immediate rear kick. The jab hides the kick."}
 ];
 
-// ─── AUDIO ──────────────────────────────────────────────────────────
-function playBeep(freq, dur, type) {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type || "square";
-    osc.frequency.value = freq || 800;
-    gain.gain.value = 0.3;
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (dur || 0.15));
-    osc.stop(ctx.currentTime + (dur || 0.15) + 0.01);
-  } catch(ex){}
-}
-function playRoundEnd() {
-  playBeep(600, 0.3, "square");
-  setTimeout(function(){playBeep(600, 0.3, "square")}, 350);
-  setTimeout(function(){playBeep(900, 0.5, "square")}, 700);
-}
-function playCountdown() { playBeep(500, 0.1, "sine"); }
+/* ---- AUDIO ---- */
+function playBeep(f,d,t){try{var c=new(window.AudioContext||window.webkitAudioContext)();var o=c.createOscillator();var g=c.createGain();o.type=t||"square";o.frequency.value=f||800;g.gain.value=0.3;o.connect(g);g.connect(c.destination);o.start();g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+(d||.15));o.stop(c.currentTime+(d||.15)+.01)}catch(x){}}
+function playRoundEnd(){playBeep(600,.3,"square");setTimeout(function(){playBeep(600,.3,"square")},350);setTimeout(function(){playBeep(900,.5,"square")},700)}
+function playCountdown(){playBeep(500,.1,"sine")}
+function playWarning(){playBeep(400,.25,"sawtooth");setTimeout(function(){playBeep(500,.25,"sawtooth")},300)}
 
-function formatTime(s) {
-  var m = Math.floor(s / 60);
-  var sec = s % 60;
-  return m + ":" + (sec < 10 ? "0" : "") + sec;
-}
-function getTotalDuration(session) {
-  return session.rounds.reduce(function(t, r){ return t + r.duration + r.rest; }, 0);
-}
-function getPhaseForWeek(w) {
-  return PHASES.find(function(p){ return p.weeks.indexOf(w) !== -1; });
-}
-function getRoundNumber(rounds, idx) {
-  var n = 0;
-  for (var i = 0; i <= idx; i++) { if (rounds[i].type === "round") n++; }
-  return n;
-}
-function totalWorkRounds(session) {
-  return session.rounds.filter(function(r){ return r.type === "round"; }).length;
-}
+function fmt(s){var m=Math.floor(s/60),sec=s%60;return m+":"+(sec<10?"0":"")+sec}
+function totalDur(ses){return ses.rounds.reduce(function(t,r){return t+r.duration+r.rest},0)}
+function phaseFor(w){return PHASES.find(function(p){return p.weeks.indexOf(w)!==-1})}
+function roundNum(rounds,idx){var n=0;for(var i=0;i<=idx;i++)if(rounds[i].type==="round")n++;return n}
+function workRounds(ses){return ses.rounds.filter(function(r){return r.type==="round"}).length}
 
-// ─── APP ────────────────────────────────────────────────────────────
-function App() {
-  var _activeWeek = useState(1);
-  var activeWeek = _activeWeek[0], setActiveWeek = _activeWeek[1];
-  var _activeSession = useState(null);
-  var activeSession = _activeSession[0], setActiveSession = _activeSession[1];
-  var _timerRunning = useState(false);
-  var timerRunning = _timerRunning[0], setTimerRunning = _timerRunning[1];
-  var _currentRoundIdx = useState(0);
-  var currentRoundIdx = _currentRoundIdx[0], setCurrentRoundIdx = _currentRoundIdx[1];
-  var _timeLeft = useState(0);
-  var timeLeft = _timeLeft[0], setTimeLeft = _timeLeft[1];
-  var _inRest = useState(false);
-  var inRest = _inRest[0], setInRest = _inRest[1];
-  var _showRef = useState(false);
-  var showRef = _showRef[0], setShowRef = _showRef[1];
-  var _sessionComplete = useState(false);
-  var sessionComplete = _sessionComplete[0], setSessionComplete = _sessionComplete[1];
-  var intervalRef = useRef(null);
+/* ---- DRILL ANIMATION SVGs ---- */
+function DrillAnimation(props){
+  var anim=props.anim||"shadow";
+  var color=props.color||"#dc2626";
+  var accent=props.accent||"#f59e0b";
+  // Stick figure fighter with animated limbs based on drill type
+  // Base body: head at (90,30), torso 90,30->90,75, hips at 90,75
+  // Lead arm: shoulder 90,42 -> hand
+  // Rear arm: shoulder 90,42 -> hand
+  // Lead leg: hip 90,75 -> foot
+  // Rear leg: hip 90,75 -> foot
 
-  var sessions = PROGRAM[activeWeek] || [];
-  var phase = getPhaseForWeek(activeWeek);
+  var sw="3";
+  var head=e("circle",{cx:90,cy:28,r:10,fill:"none",stroke:color,strokeWidth:sw});
+  var torso=e("line",{x1:90,y1:38,x2:90,y2:75,stroke:color,strokeWidth:sw});
+  // Bag
+  var bag=e("g",{opacity:.3},[
+    e("rect",{key:"b",x:138,y:15,width:24,height:70,rx:8,fill:color,opacity:.25}),
+    e("line",{key:"bl",x1:150,y1:5,x2:150,y2:15,stroke:color,strokeWidth:2,opacity:.3})
+  ]);
 
-  function startSession(session) {
-    setActiveSession(session);
-    setCurrentRoundIdx(0);
-    setTimeLeft(session.rounds[0].duration);
-    setInRest(false);
-    setTimerRunning(false);
-    setSessionComplete(false);
+  if(anim==="jab"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 1.5s ease-in-out infinite"}},
+        head,torso,
+        // Lead arm (jabbing)
+        e("line",{x1:90,y1:44,x2:130,y2:40,stroke:accent,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 1s ease-in-out infinite"}}),
+        // Rear arm (guard)
+        e("line",{x1:90,y1:44,x2:78,y2:35,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Legs
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:75,x2:102,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Glove
+        e("circle",{cx:130,cy:40,r:5,fill:accent,style:{animation:"armPunch1 1s ease-in-out infinite"}})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"JAB")
+    )
   }
 
-  var tick = useCallback(function() {
-    setTimeLeft(function(prev) {
-      if (prev <= 1) {
-        // Use refs to get current state
-        return 0; // handled in effect
+  if(anim==="cross"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 1.8s ease-in-out infinite"}},
+        head,torso,
+        // Lead arm (guard)
+        e("line",{x1:90,y1:44,x2:100,y2:34,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Rear arm (crossing)
+        e("line",{x1:90,y1:44,x2:135,y2:42,stroke:accent,strokeWidth:sw,strokeLinecap:"round",style:{animation:"strikeForward 1.2s ease-in-out infinite"}}),
+        e("circle",{cx:135,cy:42,r:5,fill:accent,style:{animation:"strikeForward 1.2s ease-in-out infinite"}}),
+        // Hip rotation indicator
+        e("path",{d:"M 85 68 Q 95 62 100 68",stroke:accent,strokeWidth:2,fill:"none",opacity:.5,style:{animation:"strikeForward 1.2s ease-in-out infinite"}}),
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:75,x2:102,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"CROSS")
+    )
+  }
+
+  if(anim==="hook"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 1.6s ease-in-out infinite"}},
+        head,torso,
+        // Lead arm (hooking)
+        e("path",{d:"M 90 44 Q 115 28 125 44",stroke:accent,strokeWidth:sw,fill:"none",strokeLinecap:"round",style:{animation:"armHook 1.3s ease-in-out infinite"}}),
+        e("circle",{cx:125,cy:44,r:5,fill:accent,style:{animation:"armHook 1.3s ease-in-out infinite"}}),
+        // Rear arm (guard)
+        e("line",{x1:90,y1:44,x2:78,y2:35,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:75,x2:102,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"HOOK")
+    )
+  }
+
+  if(anim==="kick"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 2s ease-in-out infinite"}},
+        head,torso,
+        // Arms (guard)
+        e("line",{x1:90,y1:44,x2:100,y2:34,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:44,x2:78,y2:35,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Lead leg (planted)
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Rear leg (kicking!)
+        e("g",{style:{transformOrigin:"90px 75px",animation:"kickSwing 1.4s ease-in-out infinite"}},
+          e("line",{x1:90,y1:75,x2:130,y2:65,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"}),
+          e("line",{x1:130,y1:65,x2:148,y2:55,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"})
+        ),
+        // Impact flash
+        e("circle",{cx:148,cy:50,r:8,fill:accent,opacity:.15,style:{animation:"kickSwing 1.4s ease-in-out infinite"}})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"ROUNDHOUSE")
+    )
+  }
+
+  if(anim==="lowkick"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 2s ease-in-out infinite"}},
+        head,torso,
+        e("line",{x1:90,y1:44,x2:100,y2:34,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:44,x2:78,y2:35,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Low kick (targeting lower bag)
+        e("g",{style:{transformOrigin:"90px 75px",animation:"kickSwing 1.5s ease-in-out infinite"}},
+          e("line",{x1:90,y1:75,x2:125,y2:80,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"}),
+          e("line",{x1:125,y1:80,x2:148,y2:78,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"})
+        ),
+        e("circle",{cx:148,cy:78,r:8,fill:accent,opacity:.15,style:{animation:"kickSwing 1.5s ease-in-out infinite"}})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"LOW KICK")
+    )
+  }
+
+  if(anim==="teep"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 1.8s ease-in-out infinite"}},
+        head,torso,
+        e("line",{x1:90,y1:44,x2:100,y2:34,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:44,x2:78,y2:35,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Rear leg planted
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Front leg teep (push kick)
+        e("g",{style:{animation:"teepPush 1.3s ease-in-out infinite"}},
+          e("line",{x1:90,y1:75,x2:115,y2:60,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"}),
+          e("line",{x1:115,y1:60,x2:140,y2:55,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"}),
+          e("circle",{cx:140,cy:55,r:4,fill:accent})
+        )
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"TEEP")
+    )
+  }
+
+  if(anim==="knee"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      // No bag shown - clinch range
+      e("rect",{x:130,y:20,width:22,height:65,rx:8,fill:color,opacity:.2}),
+      e("g",{style:{animation:"bobWeave 1.6s ease-in-out infinite"}},
+        head,torso,
+        // Arms pulling down (clinch)
+        e("line",{x1:90,y1:44,x2:120,y2:38,stroke:accent,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:44,x2:118,y2:44,stroke:accent,strokeWidth:sw,strokeLinecap:"round"}),
+        // Rear leg planted
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Knee driving up
+        e("g",{style:{transformOrigin:"90px 75px",animation:"kneeUp 1.2s ease-in-out infinite"}},
+          e("line",{x1:90,y1:75,x2:115,y2:60,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"}),
+          e("line",{x1:115,y1:60,x2:110,y2:80,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"})
+        ),
+        e("circle",{cx:115,cy:56,r:6,fill:accent,opacity:.2,style:{animation:"kneeUp 1.2s ease-in-out infinite"}})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"KNEE")
+    )
+  }
+
+  if(anim==="jab-cross"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 1.4s ease-in-out infinite"}},
+        head,torso,
+        // Lead arm jab then rear cross (alternating)
+        e("line",{x1:90,y1:44,x2:132,y2:40,stroke:accent,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 1.6s ease-in-out infinite"}}),
+        e("circle",{cx:132,cy:40,r:5,fill:accent,style:{animation:"armPunch1 1.6s ease-in-out infinite"}}),
+        e("line",{x1:90,y1:44,x2:128,y2:46,stroke:color,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 1.6s ease-in-out .8s infinite"}}),
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:75,x2:102,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"1-2 COMBO")
+    )
+  }
+
+  if(anim==="jab-kick"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 2s ease-in-out infinite"}},
+        head,torso,
+        // Jab arm
+        e("line",{x1:90,y1:44,x2:128,y2:40,stroke:accent,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 2s ease-in-out infinite"}}),
+        e("circle",{cx:128,cy:40,r:4,fill:accent,style:{animation:"armPunch1 2s ease-in-out infinite"}}),
+        // Guard arm
+        e("line",{x1:90,y1:44,x2:78,y2:35,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Lead leg
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Rear kick (delayed from jab)
+        e("g",{style:{transformOrigin:"90px 75px",animation:"kickSwing 2s ease-in-out 1s infinite"}},
+          e("line",{x1:90,y1:75,x2:128,y2:65,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"}),
+          e("line",{x1:128,y1:65,x2:148,y2:56,stroke:accent,strokeWidth:parseInt(sw)+1,strokeLinecap:"round"})
+        )
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"JAB + KICK")
+    )
+  }
+
+  if(anim==="combo"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      bag,
+      e("g",{style:{animation:"bobWeave 1.2s ease-in-out infinite"}},
+        head,torso,
+        // Fast alternating punches
+        e("line",{x1:90,y1:44,x2:130,y2:38,stroke:accent,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 .8s ease-in-out infinite"}}),
+        e("circle",{cx:130,cy:38,r:5,fill:accent,style:{animation:"armPunch1 .8s ease-in-out infinite"}}),
+        e("line",{x1:90,y1:44,x2:126,y2:46,stroke:color,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 .8s ease-in-out .4s infinite"}}),
+        e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        // Kick hint
+        e("g",{style:{transformOrigin:"90px 75px",animation:"kickSwing 2.4s ease-in-out 1.6s infinite"}},
+          e("line",{x1:90,y1:75,x2:120,y2:68,stroke:accent,strokeWidth:sw,strokeLinecap:"round",opacity:.6}),
+          e("line",{x1:120,y1:68,x2:142,y2:60,stroke:accent,strokeWidth:sw,strokeLinecap:"round",opacity:.6})
+        ),
+        // Impact flashes
+        e("circle",{cx:148,cy:42,r:6,fill:accent,opacity:.12,style:{animation:"armPunch1 .8s ease-in-out infinite"}})
+      ),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"COMBO")
+    )
+  }
+
+  if(anim==="stretch"){
+    return e("svg",{viewBox:"0 0 180 130"},
+      e("g",{style:{animation:"stretch1 3s ease-in-out infinite"}},
+        head,torso,
+        // Arms stretched wide
+        e("line",{x1:90,y1:44,x2:55,y2:30,stroke:color,strokeWidth:sw,strokeLinecap:"round",style:{animation:"stretch1 3s ease-in-out infinite"}}),
+        e("line",{x1:90,y1:44,x2:125,y2:30,stroke:color,strokeWidth:sw,strokeLinecap:"round",style:{animation:"stretch1 3s ease-in-out .5s infinite"}}),
+        // Legs wide
+        e("line",{x1:90,y1:75,x2:68,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+        e("line",{x1:90,y1:75,x2:112,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"})
+      ),
+      // Breathing circles
+      e("circle",{cx:90,cy:55,r:18,fill:"none",stroke:color,strokeWidth:1,opacity:.15,style:{animation:"stretch1 3s ease-in-out infinite"}}),
+      e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"STRETCH")
+    )
+  }
+
+  // Default: shadow boxing
+  return e("svg",{viewBox:"0 0 180 130"},
+    e("g",{style:{animation:"bobWeave 1.5s ease-in-out infinite"}},
+      head,torso,
+      e("line",{x1:90,y1:44,x2:112,y2:36,stroke:color,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 1.4s ease-in-out infinite"}}),
+      e("line",{x1:90,y1:44,x2:108,y2:44,stroke:color,strokeWidth:sw,strokeLinecap:"round",style:{animation:"armPunch1 1.4s ease-in-out .7s infinite"}}),
+      e("line",{x1:90,y1:75,x2:78,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"}),
+      e("line",{x1:90,y1:75,x2:102,y2:110,stroke:color,strokeWidth:sw,strokeLinecap:"round"})
+    ),
+    e("text",{x:90,y:126,textAnchor:"middle",fill:color,fontSize:"10",fontWeight:700,letterSpacing:"2",opacity:.6},"SHADOW")
+  )
+}
+
+/* ---- MAIN APP ---- */
+function App(){
+  var s1=useState(1),activeWeek=s1[0],setActiveWeek=s1[1];
+  var s2=useState(null),activeSes=s2[0],setActiveSes=s2[1];
+  var s3=useState(false),running=s3[0],setRunning=s3[1];
+  var s4=useState(0),rIdx=s4[0],setRIdx=s4[1];
+  var s5=useState(0),timeLeft=s5[0],setTimeLeft=s5[1];
+  var s6=useState(false),inRest=s6[0],setInRest=s6[1];
+  var s7=useState(false),showRef=s7[0],setShowRef=s7[1];
+  var s8=useState(false),done=s8[0],setDone=s8[1];
+  var s9=useState(false),warned10=s9[0],setWarned10=s9[1];
+  var iRef=useRef(null);
+  var sessions=PROGRAM[activeWeek]||[];
+  var phase=phaseFor(activeWeek);
+
+  function startSes(ses){setActiveSes(ses);setRIdx(0);setTimeLeft(ses.rounds[0].duration);setInRest(false);setRunning(false);setDone(false);setWarned10(false)}
+
+  var tick=useCallback(function(){
+    setTimeLeft(function(p){
+      if(p<=1)return 0;
+      if(p<=4&&p>1)playCountdown();
+      // 10-second warning
+      if(p===11){playWarning();setWarned10(true)}
+      if(p>11){setWarned10(false)}
+      return p-1
+    })
+  },[]);
+
+  useEffect(function(){
+    if(timeLeft===0&&activeSes&&!done){
+      setWarned10(false);
+      var cr=activeSes.rounds[rIdx];
+      if(!inRest){
+        if(cr.rest>0){playRoundEnd();setInRest(true);setTimeLeft(cr.rest)}
+        else{var ni=rIdx+1;if(ni<activeSes.rounds.length){playRoundEnd();setRIdx(ni);setInRest(false);setTimeLeft(activeSes.rounds[ni].duration)}else{playRoundEnd();setRunning(false);setDone(true)}}
+      }else{
+        var ni2=rIdx+1;if(ni2<activeSes.rounds.length){playBeep(1000,.2,"sine");setRIdx(ni2);setInRest(false);setTimeLeft(activeSes.rounds[ni2].duration)}else{playRoundEnd();setRunning(false);setDone(true)}
       }
-      if (prev <= 4 && prev > 1) playCountdown();
-      return prev - 1;
-    });
-  }, []);
+    }
+  },[timeLeft,activeSes,rIdx,inRest,done]);
 
-  // Handle round transitions
-  useEffect(function() {
-    if (timeLeft === 0 && activeSession && !sessionComplete) {
-      var currentRound = activeSession.rounds[currentRoundIdx];
-      if (!inRest) {
-        if (currentRound.rest > 0) {
-          playRoundEnd();
-          setInRest(true);
-          setTimeLeft(currentRound.rest);
-        } else {
-          var nextIdx = currentRoundIdx + 1;
-          if (nextIdx < activeSession.rounds.length) {
-            playRoundEnd();
-            setCurrentRoundIdx(nextIdx);
-            setInRest(false);
-            setTimeLeft(activeSession.rounds[nextIdx].duration);
-          } else {
-            playRoundEnd();
-            setTimerRunning(false);
-            setSessionComplete(true);
-          }
-        }
-      } else {
-        var nextIdx2 = currentRoundIdx + 1;
-        if (nextIdx2 < activeSession.rounds.length) {
-          playBeep(1000, 0.2, "sine");
-          setCurrentRoundIdx(nextIdx2);
-          setInRest(false);
-          setTimeLeft(activeSession.rounds[nextIdx2].duration);
-        } else {
-          playRoundEnd();
-          setTimerRunning(false);
-          setSessionComplete(true);
-        }
-      }
-    }
-  }, [timeLeft, activeSession, currentRoundIdx, inRest, sessionComplete]);
+  useEffect(function(){
+    if(running){iRef.current=setInterval(tick,1000)}else{clearInterval(iRef.current)}
+    return function(){clearInterval(iRef.current)}
+  },[running,tick]);
 
-  useEffect(function() {
-    if (timerRunning) {
-      intervalRef.current = setInterval(tick, 1000);
-    } else {
-      clearInterval(intervalRef.current);
-    }
-    return function(){ clearInterval(intervalRef.current); };
-  }, [timerRunning, tick]);
+  function toggle(){if(done)return;if(!running)playBeep(1000,.15,"sine");setRunning(!running)}
+  function skip(){if(!activeSes)return;setWarned10(false);var ni=rIdx+1;if(ni<activeSes.rounds.length){setRIdx(ni);setTimeLeft(activeSes.rounds[ni].duration);setInRest(false)}else{setRunning(false);setDone(true);setTimeLeft(0)}}
+  function reset(){if(activeSes){setRIdx(0);setTimeLeft(activeSes.rounds[0].duration);setInRest(false);setRunning(false);setDone(false);setWarned10(false)}}
+  function back(){setActiveSes(null);setRunning(false);clearInterval(iRef.current)}
 
-  function toggleTimer() {
-    if (sessionComplete) return;
-    if (!timerRunning) playBeep(1000, 0.15, "sine");
-    setTimerRunning(!timerRunning);
-  }
-  function skipRound() {
-    if (!activeSession) return;
-    var nextIdx = currentRoundIdx + 1;
-    if (nextIdx < activeSession.rounds.length) {
-      setCurrentRoundIdx(nextIdx);
-      setTimeLeft(activeSession.rounds[nextIdx].duration);
-      setInRest(false);
-    } else {
-      setTimerRunning(false);
-      setSessionComplete(true);
-      setTimeLeft(0);
-    }
-  }
-  function resetSession() {
-    if (activeSession) {
-      setCurrentRoundIdx(0);
-      setTimeLeft(activeSession.rounds[0].duration);
-      setInRest(false);
-      setTimerRunning(false);
-      setSessionComplete(false);
-    }
-  }
-  function goBack() {
-    setActiveSession(null);
-    setTimerRunning(false);
-    clearInterval(intervalRef.current);
-  }
-  function getProgress() {
-    if (!activeSession) return 0;
-    var total = getTotalDuration(activeSession);
-    var elapsed = 0;
-    for (var i = 0; i < currentRoundIdx; i++) {
-      elapsed += activeSession.rounds[i].duration + activeSession.rounds[i].rest;
-    }
-    var cr = activeSession.rounds[currentRoundIdx];
-    if (inRest) {
-      elapsed += cr.duration + (cr.rest - timeLeft);
-    } else {
-      elapsed += cr.duration - timeLeft;
-    }
-    return Math.min((elapsed / total) * 100, 100);
+  function progress(){
+    if(!activeSes)return 0;var total=totalDur(activeSes),elapsed=0;
+    for(var i=0;i<rIdx;i++)elapsed+=activeSes.rounds[i].duration+activeSes.rounds[i].rest;
+    var cr=activeSes.rounds[rIdx];
+    if(inRest)elapsed+=cr.duration+(cr.rest-timeLeft);else elapsed+=cr.duration-timeLeft;
+    return Math.min((elapsed/total)*100,100);
   }
 
-  // ─── DRILL REFERENCE COMPONENT ─────────────────────────────────
-  function drillRef() {
-    return e("div", {className:"ref-section"},
-      e("button", {className:"ref-header", onClick:function(){setShowRef(!showRef)}},
-        e("span", null, "Drill Reference Guide"),
-        e("span", {className:"chevron" + (showRef ? " open" : "")}, "\u25BE")
+  function drillRefBlock(){
+    return e("div",{className:"ref-section"},
+      e("button",{className:"ref-header",onClick:function(){setShowRef(!showRef)}},
+        e("span",null,"Drill Reference Guide"),
+        e("span",{className:"chevron"+(showRef?" open":"")},"\u25BE")
       ),
-      showRef ? e("div", null,
-        DRILL_REFERENCE.map(function(d, i) {
-          return e("div", {key:i, className:"ref-item"},
-            e("div", {className:"ref-name"}, d.name),
-            e("div", {className:"ref-desc"}, d.desc)
-          );
-        })
-      ) : null
-    );
+      showRef?e("div",null,DRILL_REFERENCE.map(function(d,i){
+        return e("div",{key:i,className:"ref-item"},e("div",{className:"ref-name"},d.name),e("div",{className:"ref-desc"},d.desc))
+      })):null
+    )
   }
 
-  // ─── SESSION VIEW ─────────────────────────────────────────────
-  if (activeSession) {
-    var currentRound = activeSession.rounds[currentRoundIdx];
-    var label = inRest ? "REST"
-      : currentRound.type === "warmup" ? "WARM-UP"
-      : currentRound.type === "cooldown" ? "COOLDOWN"
-      : "ROUND " + getRoundNumber(activeSession.rounds, currentRoundIdx);
+  // SESSION VIEW
+  if(activeSes){
+    var cr=activeSes.rounds[rIdx];
+    var label=inRest?"REST":cr.type==="warmup"?"WARM-UP":cr.type==="cooldown"?"COOLDOWN":"ROUND "+roundNum(activeSes.rounds,rIdx);
+    var tc=inRest?"#f59e0b":done?"#22c55e":"#fff";
+    var ts=inRest?"0 0 40px rgba(245,158,11,.4)":done?"0 0 40px rgba(34,197,94,.4)":"0 0 40px rgba(220,38,38,.3)";
+    var lc=inRest?"#f59e0b":(phase?phase.color:"#dc2626");
+    var pg="linear-gradient(90deg,"+(phase?phase.color:"#dc2626")+",#fff)";
+    // Is timer in the last 10 seconds? (not rest, running)
+    var isWarning=!inRest&&running&&timeLeft<=10&&timeLeft>0&&!done;
+    // Big timer mode when running or paused but started
+    var isBig=running||(rIdx>0||timeLeft!==cr.duration);
+    var timerClasses="timer-area"+(isBig?" timer-big":"")+(isWarning?" timer-warning":"");
 
-    var timerColor = inRest ? "#f59e0b" : sessionComplete ? "#22c55e" : "#fff";
-    var timerShadow = inRest ? "0 0 40px rgba(245,158,11,.4)"
-      : sessionComplete ? "0 0 40px rgba(34,197,94,.4)"
-      : "0 0 40px rgba(220,38,38,.3)";
-    var labelColor = inRest ? "#f59e0b" : (phase ? phase.color : "#dc2626");
-    var progressGrad = "linear-gradient(90deg, " + (phase ? phase.color : "#dc2626") + ", #fff)";
-
-    return e("div", {style:{minHeight:"100vh",background:"linear-gradient(180deg,#0a0a0a 0%,#1a0a0a 50%,#0a0a0a 100%)"}},
-      // Header bar
-      e("div", {className:"session-header"},
-        e("button", {className:"back-btn", onClick:goBack}, "\u2190 Back"),
-        e("div", {className:"session-header-label"}, "Week " + activeWeek + " \u00B7 " + activeSession.name)
+    return e("div",{style:{minHeight:"100vh",minHeight:"100dvh",background:"linear-gradient(180deg,#0a0a0a 0%,#1a0a0a 50%,#0a0a0a 100%)"}},
+      e("div",{className:"session-header"},
+        e("button",{className:"back-btn",onClick:back},"\u2190 Back"),
+        e("div",{className:"session-header-label"},"Week "+activeWeek+" \u00B7 "+activeSes.name)
       ),
-      // Progress
-      e("div", {className:"progress-bar"},
-        e("div", {className:"progress-fill", style:{width:getProgress()+"%", background:progressGrad}})
+      e("div",{className:"progress-bar"},e("div",{className:"progress-fill",style:{width:progress()+"%",background:pg}})),
+      e("div",{className:timerClasses},
+        done?e("div",null,e("div",{className:"complete-msg"},"Session Complete"),e("div",{className:"complete-icon"},"\u2713")):
+        e("div",null,
+          e("div",{className:"round-label",style:{color:lc}},label),
+          !inRest?e("div",{className:"status-label"},cr.name):null,
+          e("div",{className:"timer-display",style:{color:tc,textShadow:ts}},fmt(timeLeft)),
+          // Drill animation
+          !inRest&&cr.anim&&running?e("div",{className:"drill-anim-wrap"},e(DrillAnimation,{anim:cr.anim,color:phase?phase.color:"#dc2626",accent:"#f59e0b"})):null,
+          !inRest&&cr.notes?e("div",{className:"timer-notes"},cr.notes):null,
+          isWarning?e("div",{style:{marginTop:"8px",fontSize:".85rem",fontWeight:700,color:"#ef4444",letterSpacing:".1em",textTransform:"uppercase",animation:"warningPulse .5s ease-in-out infinite"}},"\u26A0 LAST 10 SECONDS"):null
+        )
       ),
-      // Timer
-      e("div", {className:"timer-area"},
-        sessionComplete ?
-          e("div", null,
-            e("div", {className:"complete-msg"}, "Session Complete"),
-            e("div", {className:"complete-icon"}, "\u2713")
-          )
-        :
-          e("div", null,
-            e("div", {className:"round-label", style:{color:labelColor}}, label),
-            !inRest ? e("div", {className:"status-label"}, currentRound.name) : null,
-            e("div", {className:"timer-display", style:{color:timerColor, textShadow:timerShadow}}, formatTime(timeLeft)),
-            !inRest && currentRound.notes ? e("div", {className:"timer-notes"}, currentRound.notes) : null
-          )
+      e("div",{className:"controls"},
+        !done?[
+          e("button",{key:"r",className:"btn btn-secondary",onClick:reset},"Reset"),
+          e("button",{key:"t",className:"btn btn-primary "+(running?"btn-pause":"btn-start"),onClick:toggle},running?"Pause":timeLeft===activeSes.rounds[0].duration&&rIdx===0?"Start":"Resume"),
+          e("button",{key:"s",className:"btn btn-secondary",onClick:skip},"Skip \u2192")
+        ]:e("button",{className:"btn btn-done",onClick:back},"Done")
       ),
-      // Controls
-      e("div", {className:"controls"},
-        !sessionComplete ?
-          [
-            e("button", {key:"reset", className:"btn btn-secondary", onClick:resetSession}, "Reset"),
-            e("button", {key:"toggle", className:"btn btn-primary " + (timerRunning ? "btn-pause" : "btn-start"), onClick:toggleTimer},
-              timerRunning ? "Pause" : (timeLeft === activeSession.rounds[0].duration && currentRoundIdx === 0 ? "Start" : "Resume")),
-            e("button", {key:"skip", className:"btn btn-secondary", onClick:skipRound}, "Skip \u2192"),
-          ]
-        :
-          e("button", {className:"btn btn-done", onClick:goBack}, "Done")
-      ),
-      // Round list
-      e("div", {className:"round-list"},
-        e("div", {className:"round-list-title"}, "Session Rounds"),
-        activeSession.rounds.map(function(r, i) {
-          var isActive = i === currentRoundIdx && !sessionComplete;
-          var isDone = i < currentRoundIdx || sessionComplete;
-          var cls = "round-item" + (isActive ? " active" : isDone ? " done" : " upcoming");
-          var borderColor = isActive ? (inRest ? "#f59e0b" : "#dc2626") : "#1a1a1a";
-          var bgColor = isActive ? (inRest ? "rgba(245,158,11,.15)" : "rgba(220,38,38,.15)") : "#111";
-          var typeClass = "round-type " + (r.type === "warmup" ? "warmup" : r.type === "cooldown" ? "cooldown" : "work");
-          var typeLabel = r.type === "round" ? "R" + getRoundNumber(activeSession.rounds, i)
-            : r.type === "warmup" ? "W/U" : "C/D";
-
-          return e("div", {key:i, className:cls, style:{background:bgColor, borderColor:borderColor}},
-            e("div", {style:{display:"flex",alignItems:"center",flex:1}},
-              e("span", {className:typeClass}, typeLabel),
-              e("div", null,
-                e("div", {className:"round-name", style:{color:isActive?"#fff":"#ccc"}}, (isDone?"\u2713 ":"") + r.name),
-                isActive && !inRest && r.notes ? e("div", {className:"round-detail"}, r.notes) : null
+      e("div",{className:"round-list"},
+        e("div",{className:"round-list-title"},"Session Rounds"),
+        activeSes.rounds.map(function(r,i){
+          var isA=i===rIdx&&!done,isD=i<rIdx||done;
+          var cls="round-item"+(isA?" active":isD?" done":" upcoming");
+          var bc=isA?(inRest?"#f59e0b":"#dc2626"):"#1a1a1a";
+          var bg=isA?(inRest?"rgba(245,158,11,.15)":"rgba(220,38,38,.15)"):"#111";
+          var tc2="round-type "+(r.type==="warmup"?"warmup":r.type==="cooldown"?"cooldown":"work");
+          var tl=r.type==="round"?"R"+roundNum(activeSes.rounds,i):r.type==="warmup"?"W/U":"C/D";
+          return e("div",{key:i,className:cls,style:{background:bg,borderColor:bc}},
+            e("div",{style:{display:"flex",alignItems:"center",flex:1}},
+              e("span",{className:tc2},tl),
+              e("div",null,
+                e("div",{className:"round-name",style:{color:isA?"#fff":"#ccc"}},(isD?"\u2713 ":"")+r.name),
+                isA&&!inRest&&r.notes?e("div",{className:"round-detail"},r.notes):null
               )
             ),
-            e("div", {className:"round-time"},
-              formatTime(r.duration),
-              r.rest > 0 ? e("span", {className:"round-rest-badge"}, "+" + r.rest + "s") : null
-            )
-          );
+            e("div",{className:"round-time"},fmt(r.duration),r.rest>0?e("span",{className:"round-rest-badge"},"+"+r.rest+"s"):null)
+          )
         })
       ),
-      // Drill reference
-      drillRef(),
-      e("div", {style:{height:"40px"}})
-    );
+      drillRefBlock(),
+      e("div",{style:{height:"40px"}})
+    )
   }
 
-  // ─── SESSION LIST VIEW ────────────────────────────────────────
-  return e("div", {style:{minHeight:"100vh",background:"linear-gradient(180deg,#0a0a0a 0%,#1a0a0a 50%,#0a0a0a 100%)"}},
-    // Header
-    e("div", {className:"header"},
-      e("h1", {className:"title"}, "Heavy Bag Lab"),
-      e("div", {className:"subtitle"}, "6-Week Muay Thai Program")
+  // LIST VIEW
+  return e("div",{style:{minHeight:"100vh",minHeight:"100dvh",background:"linear-gradient(180deg,#0a0a0a 0%,#1a0a0a 50%,#0a0a0a 100%)"}},
+    e("div",{className:"header"},
+      e("h1",{className:"title"},"Heavy Bag Lab"),
+      e("div",{className:"subtitle"},"6-Week Muay Thai Program")
     ),
-    // Phase
-    e("div", {className:"phase-label", style:{color:phase?phase.color:"#dc2626", borderBottomColor:(phase?phase.color:"#dc2626")+"33"}},
-      "Phase: " + (phase?phase.name:"") + " \u2014 " + (phase?phase.desc:"")
+    e("div",{className:"phase-label",style:{color:phase?phase.color:"#dc2626",borderBottomColor:(phase?phase.color:"#dc2626")+"33"}},
+      "Phase: "+(phase?phase.name:"")+" \u2014 "+(phase?phase.desc:"")
     ),
-    // Week tabs
-    e("div", {className:"week-tabs"},
-      [1,2,3,4,5,6].map(function(w) {
-        var wp = getPhaseForWeek(w);
-        var isActive = activeWeek === w;
-        return e("button", {
-          key:w,
-          className:"week-tab" + (isActive?" active":""),
-          style:{
-            borderColor: isActive ? (wp?wp.color:"#dc2626") : "#333",
-            background: isActive ? (wp?wp.color:"#dc2626") + "22" : "transparent",
-          },
-          onClick:function(){setActiveWeek(w)}
-        }, "Week " + w);
-      })
-    ),
-    // Session cards
-    e("div", null,
-      sessions.map(function(s, i) {
-        return e("div", {
-          key:i,
-          className:"session-card",
-          style:{borderLeftColor: phase?phase.color:"#dc2626"},
-          onClick:function(){startSession(s)}
-        },
-          e("div", {className:"session-name"}, s.name),
-          e("div", {className:"session-desc"}, s.desc),
-          e("div", {className:"session-meta"},
-            e("span", {className:"meta-badge"}, totalWorkRounds(s) + " Rounds"),
-            e("span", {className:"meta-badge"}, Math.ceil(getTotalDuration(s)/60) + " min"),
-            e("span", {className:"meta-badge"}, s.rounds.length + " segments")
-          )
-        );
-      })
-    ),
-    // Drill reference
-    drillRef(),
-    e("div", {className:"footer"}, "HEAVY BAG LAB \u00B7 MUAY THAI TRAINING SYSTEM")
-  );
+    e("div",{className:"week-tabs"},[1,2,3,4,5,6].map(function(w){
+      var wp=phaseFor(w),isA=activeWeek===w;
+      return e("button",{key:w,className:"week-tab"+(isA?" active":""),style:{borderColor:isA?(wp?wp.color:"#dc2626"):"#333",background:isA?(wp?wp.color:"#dc2626")+"22":"transparent"},onClick:function(){setActiveWeek(w)}},"Week "+w)
+    })),
+    e("div",{className:"session-cards-grid"},sessions.map(function(s,i){
+      return e("div",{key:i,className:"session-card",style:{borderLeftColor:phase?phase.color:"#dc2626"},onClick:function(){startSes(s)}},
+        e("div",{className:"session-name"},s.name),
+        e("div",{className:"session-desc"},s.desc),
+        e("div",{className:"session-meta"},
+          e("span",{className:"meta-badge"},workRounds(s)+" Rounds"),
+          e("span",{className:"meta-badge"},Math.ceil(totalDur(s)/60)+" min"),
+          e("span",{className:"meta-badge"},s.rounds.length+" segments")
+        )
+      )
+    })),
+    drillRefBlock(),
+    e("div",{className:"footer"},"HEAVY BAG LAB \u00B7 MUAY THAI TRAINING SYSTEM")
+  )
 }
 
-ReactDOM.render(e(App), document.getElementById("app"));
+ReactDOM.render(e(App),document.getElementById("app"));
 </script>
 </body>
 </html>
